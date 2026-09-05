@@ -1,0 +1,23 @@
+# --- Sistema operativo / editores ---
+.DS_Store
+._*
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# --- Configuracion personal del agente (no se comparte) ---
+.claude/settings.local.json
+
+# --- Material de clientes: zona de paso, no se versiona ---
+input/*
+!input/.gitkeep
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# NOTA: cuando existan corridas reales, agregar aqui las reglas para
+# runs/*/adjuntos/ y runs/*/salida/ (material y entregables de clientes).
