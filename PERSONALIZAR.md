@@ -168,6 +168,10 @@ cotizar un trabajo simple de tu rubro y llegar a un número parecido al tuyo.
 Copia `packs/_PLANTILLA/` una vez por servicio que realmente vendas, y renombra:
 `packs/<id-del-servicio>/`.
 
+> El molde completo, con todas las secciones y la explicación de cada una, vive en
+> `packs/_PLANTILLA/detalles.md`. La versión de abajo es la abreviada, para orientarte sin
+> salir de esta guía.
+
 ```markdown
 # <nombre comercial del servicio>
 

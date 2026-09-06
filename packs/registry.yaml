@@ -1,0 +1,68 @@
+# =============================================================================
+# registry.yaml — el índice del sistema
+#
+# ACÁ VA UN EJEMPLO. Las dos entradas de abajo corresponden a los packs de
+# ejemplo (_pack-1 y _pack-2) y al staff de ejemplo (_miembro-1, _miembro-2,
+# _miembro-compartido). BÓRRALAS y deja las tuyas.
+#
+# Este archivo NO se borra: se reemplaza su contenido.
+#
+# Qué hace: traduce lo que dice el cliente en qué servicio aplica y a quién se
+# convoca. Es el archivo que el planificador consulta para clasificar.
+#
+# Esquema completo y reglas de resolución: docs/ARQUITECTURA.md §6
+# Campos obligatorios: id, nombre, señales, staff, refs_obligatorias, entregable
+# Campos opcionales:   prioridad, excluye
+#
+# Regla de oro para las señales: escríbelas con las palabras que usa el
+# CLIENTE, no con las tuyas. El registry se corrige con el uso: parte simple.
+# =============================================================================
+
+packs:
+
+  # ---------------------------------------------------------------------------
+  # EJEMPLO 1 — servicio de ejecución: el cliente compra un trabajo hecho.
+  # ---------------------------------------------------------------------------
+  - id: _pack-1                          # debe existir packs/_pack-1/detalles.md
+    nombre: "<nombre comercial del servicio de ejecución>"
+    señales:                              # en las palabras del cliente
+      - "<necesito que me hagan ...>"
+      - "<se rompió / se desgastó / hay que reponer ...>"
+      - "<situación operativa que exige intervenir>"
+    staff:                                # deben existir staff/<id>/ con sus tres archivos
+      - _miembro-1                        # el que ejecuta
+      - _miembro-compartido               # revisión final
+    refs_obligatorias:                    # rutas dentro de refs/; puede ir vacío con []
+      - _norma.md
+    entregable: plantillas/estructura-entregable.md
+    prioridad: 2                          # opcional: menor número gana en un empate
+
+  # ---------------------------------------------------------------------------
+  # EJEMPLO 2 — servicio de diagnóstico: el cliente compra una decisión.
+  # ---------------------------------------------------------------------------
+  - id: _pack-2                          # debe existir packs/_pack-2/detalles.md
+    nombre: "<nombre comercial del servicio de diagnóstico>"
+    señales:
+      - "<no sabemos por qué nos está pasando esto>"
+      - "<probamos varias cosas y no funcionó>"
+      - "<necesitamos decidir entre estas opciones>"
+    staff:
+      - _miembro-2                        # el que diagnostica y decide
+      - _miembro-compartido               # revisión final
+    refs_obligatorias: []
+    entregable: plantillas/estructura-entregable.md
+    prioridad: 1                          # ante duda, diagnosticar antes de ejecutar
+
+  # ---------------------------------------------------------------------------
+  # PLANTILLA — copia este bloque para cada servicio tuyo.
+  # ---------------------------------------------------------------------------
+  # - id: <id-del-servicio>
+  #   nombre: "<nombre comercial>"
+  #   señales:
+  #     - "<palabra o frase que usa el cliente>"
+  #   staff:
+  #     - <id-del-especialista>
+  #   refs_obligatorias: []
+  #   entregable: plantillas/estructura-entregable.md
+  #   prioridad: <numero>                 # opcional
+  #   excluye: [<id-de-pack>]             # opcional: packs incompatibles con este
