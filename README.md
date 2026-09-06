@@ -178,8 +178,8 @@ sistema-agentico-turubro/
 │       └── propuesta.pdf      La propuesta enviada. Queda como versión firmada en el tiempo.
 │
 ├── plantillas/                LA FORMA de los documentos: identidad visual y estructura.
-│   ├── propuesta.potx         Plantilla de presentación para propuestas comerciales.
-│   ├── entregable.potx        Plantilla de presentación para entregables técnicos.
+│   ├── propuesta.potx         Identidad visual para propuestas. La creas tú: ver plantillas/README.md.
+│   ├── entregable.potx        Identidad visual para entregables. La creas tú: ver plantillas/README.md.
 │   ├── estructura-propuesta.md  Guion obligatorio de una propuesta: secciones, orden y qué va en
 │   │                            cada una. El agente lo respeta al construir el documento.
 │   └── estructura-entregable.md Guion obligatorio de un entregable.
