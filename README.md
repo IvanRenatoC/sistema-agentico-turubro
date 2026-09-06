@@ -31,6 +31,12 @@ reproducible y operable por agentes**, de modo que:
 juicio profesional. Es una oficina descrita en texto, con un agente que la opera y una persona que
 la dirige y firma.
 
+### 1.1 Esquema del objetivo general
+
+La imagen busca ilustrar la idea del Repositorio que podrás descargar y darle tu propia identidad para automatizar tus decisiones y eficientar tus tiempos.
+
+![Esquema del objetivo general](esquema.webp)
+
 ---
 
 ## 2. Los cuatro conceptos que hay que entender
