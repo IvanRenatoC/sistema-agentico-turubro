@@ -139,6 +139,7 @@ Los tres comparten el tramo de entendimiento y se separan en el destino.
 1. Ingesta y `brief.md` en `propuestas/<id>/`.
 2. Clasificación: pack, staff, entradas mínimas faltantes.
 3. Cuantificación **gruesa**: los especialistas entregan magnitud y rango, no partidas cerradas.
+   Si el detalle del cálculo merece quedar escrito, va en `propuestas/<id>/estimacion.md`.
 4. Armado del documento con `plantillas/estructura-propuesta.md`.
 5. Cierre: supuestos que sostienen el precio, y qué lo cambiaría.
 
@@ -355,11 +356,13 @@ criterio, es trabajo de un agente.
 | Pieza | Estado |
 |---|---|
 | Estructura, `README.md`, `CLAUDE.md`, `PERSONALIZAR.md` | Escritos |
-| Agentes (`coordinador`, `planificador`, `especialista`) | Escritos |
-| Moldes de `staff/` (ejecución, diagnóstico, transversal) | Escritos |
 | Este documento | Escrito |
-| Skills (`proponer`, `ejecutar`, `entregar`) | Pendientes |
+| Agentes (`coordinador`, `planificador`, `especialista`) | Escritos |
+| Skills (`proponer`, `ejecutar`, `entregar`) | Escritas |
+| Moldes de `staff/` (ejecución, diagnóstico, transversal) | Escritos |
+| `packs/`: `README`, `_PLANTILLA`, dos ejemplos y `registry.yaml` | Escritos |
+| `runs/`: `README` y moldes ilustrativos de corrida | Escritos |
 | Scripts (`ingesta.py`, `resolver.py`) | Pendientes, con contrato definido en la sección 5 |
-| `packs/_PLANTILLA`, `staff/_PLANTILLA`, `refs/`, `plantillas/` | Pendientes |
+| `staff/_PLANTILLA`, `refs/`, `plantillas/` | Pendientes |
 | `.claude/settings.json` (permisos del proyecto) | Pendiente |
 | Ejemplos (`construccion`, `agencia-marketing`) | Pendientes |
