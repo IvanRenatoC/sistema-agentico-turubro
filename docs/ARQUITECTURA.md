@@ -251,6 +251,21 @@ falta una, el siguiente rol no puede trabajar.
 La columna **Origen** de las cuantificaciones es el corazón de la auditoría: `costos.md`, `refs/`,
 adjunto del cliente, o supuesto. Sin ella, el consolidado es una suma de números sin trazabilidad.
 
+### Dónde manda el formato
+
+El formato de estos archivos aparece en tres lugares. La jerarquía es explícita para que una
+divergencia se corrija siempre en la misma dirección:
+
+| Lugar | Rol | Naturaleza |
+|---|---|---|
+| `.claude/agents/*.md` | El formato de salida de cada rol | **Normativo.** Manda. El contrato pertenece a quien emite el archivo. |
+| Este documento, tabla de arriba | Secciones mínimas exigibles | **Invariante.** La regla corta, que no cambia aunque el formato se afine. |
+| `runs/_id-corrida/*` | Cómo se ve una corrida | **Ilustrativo.** No manda nunca, y se puede borrar. |
+
+El formato operativo **no vive en `runs/_id-corrida/`** a propósito: esa carpeta lleva prefijo `_`,
+y `PERSONALIZAR.md` invita a borrarla cuando deje de servir de referencia. Nada desechable puede
+ser una dependencia de ejecución.
+
 ---
 
 ## 8. Estado, concurrencia y reproducibilidad
