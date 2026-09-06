@@ -13,6 +13,14 @@ Thumbs.db
 input/*
 !input/.gitkeep
 
+# --- Documentos normativos originales ---
+# Ignorados por defecto: muchos estandares se compran y su licencia prohibe
+# redistribuirlos. El repositorio versiona el INDEX y los extractos, que son
+# obra propia. Si tienes documentos de libre redistribucion y quieres
+# versionarlos, quita esta regla a conciencia, documento por documento.
+refs/originales/*
+!refs/originales/README.md
+
 # --- Python ---
 __pycache__/
 *.pyc
