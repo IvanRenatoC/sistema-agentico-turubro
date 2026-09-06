@@ -77,6 +77,15 @@ precios cerrados sin visita, resultados de negocio asegurados.
 La propuesta enviada queda archivada como `propuestas/<id>/propuesta.pdf`: es la versión firmada en
 el tiempo, y no se edita después.
 
+### 7. Registrar el desenlace
+
+Cuando la propuesta se resuelve —aprobada, rechazada o sin respuesta—, el aprendizaje va a
+`feedback/packs/<pack>.md`: qué se ofreció, qué pasó y por qué. Alcance mal definido, precio fuera
+de mercado, entregable que no convenció.
+
+**Una propuesta perdida sin razón anotada es la información más cara que se pierde en una oficina de
+servicios.**
+
 ## Contrato de salida
 
 | Archivo | Contenido |

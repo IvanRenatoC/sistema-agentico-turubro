@@ -27,5 +27,12 @@ __pycache__/
 .venv/
 venv/
 
-# NOTA: cuando existan corridas reales, agregar aqui las reglas para
-# runs/*/adjuntos/ y runs/*/salida/ (material y entregables de clientes).
+# --- Confidencialidad: activar cuando empieces a trabajar con clientes ---
+# Estas rutas contienen nombres de clientes, precios y material que te
+# entregaron. Que se versionen o no depende de la visibilidad de tu repo:
+#   repositorio privado -> deja las reglas comentadas, la trazabilidad vale mas
+#   repositorio publico  -> descomenta, y conserva solo las carpetas de ejemplo
+# runs/*/adjuntos/
+# runs/*/salida/
+# propuestas/*
+# !propuestas/_AAAA-MM-DD-corrida/
