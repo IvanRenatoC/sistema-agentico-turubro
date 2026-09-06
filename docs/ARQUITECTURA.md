@@ -362,7 +362,7 @@ criterio, es trabajo de un agente.
 | Moldes de `staff/` (ejecución, diagnóstico, transversal) | Escritos |
 | `packs/`: `README`, `_PLANTILLA`, dos ejemplos y `registry.yaml` | Escritos |
 | `runs/`: `README` y moldes ilustrativos de corrida | Escritos |
-| Scripts (`ingesta.py`, `resolver.py`) | Pendientes, con contrato definido en la sección 5 |
-| `staff/_PLANTILLA`, `refs/`, `plantillas/` | Pendientes |
-| `.claude/settings.json` (permisos del proyecto) | Pendiente |
+| Scripts (`ingesta.py`, `resolver.py`) | Escritos y probados, sin dependencias externas |
+| `staff/_PLANTILLA`, `refs/`, `plantillas/`, `feedback/`, `propuestas/` | Escritos |
+| `.claude/settings.json` (permisos del proyecto) | Escrito |
 | Ejemplos (`construccion`, `agencia-marketing`) | Pendientes |

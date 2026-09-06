@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 .claude/scripts/ingesta.py:*)",
+      "Bash(python3 .claude/scripts/resolver.py:*)"
+    ],
+    "deny": [
+      "Write(./input/**)",
+      "Edit(./input/**)",
+      "Edit(./runs/*/adjuntos/**)",
+      "Bash(rm:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}
