@@ -80,6 +80,10 @@ describir tu negocio sin inventar nada.
 Copia `staff/_PLANTILLA/` tantas veces como especialistas quieras, y renombra cada copia con un
 identificador corto y en minúsculas: `staff/<id-del-especialista>/`.
 
+> Los moldes completos, con la explicación de cada sección, están en los tres archivos de
+> `staff/_PLANTILLA/`. Las versiones de abajo son abreviadas, para orientarte sin salir de
+> esta guía.
+
 Empieza por **los dos o tres que participan en casi todo encargo**. Cada uno lleva tres archivos.
 
 ### `rol.md` — quién es y qué NO hace
