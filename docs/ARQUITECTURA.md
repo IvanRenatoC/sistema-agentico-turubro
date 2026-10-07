@@ -43,8 +43,9 @@ Seis decisiones de fondo, de las que se derivan casi todas las demás.
 | Categoría | Directorios | Naturaleza |
 |---|---|---|
 | **Identidad** | `CLAUDE.md`, `staff/`, `packs/`, `refs/`, `plantillas/` | Fuente de verdad. Se edita a mano, se versiona, cambia lento. |
-| **Entrada** | `input/`, `runs/<corrida>/adjuntos/` | Material externo. Inmutable: se archiva, no se edita. |
-| **Derivado** | `runs/<corrida>/` (salvo adjuntos), `propuestas/` | Producto de una corrida. Reproducible desde identidad + entrada. |
+| **Cliente** | `clientes/<cliente>/CLAUDE.md`, `notas.md` | Fuente de verdad acotada a un cliente. Nunca se lee desde otro. |
+| **Entrada** | `clientes/<cliente>/input/`, `clientes/<cliente>/runs/<corrida>/adjuntos/` | Material externo. Inmutable: se archiva, no se edita. |
+| **Derivado** | `clientes/<cliente>/runs/<corrida>/` (salvo adjuntos), `clientes/<cliente>/propuestas/` | Producto de una corrida. Reproducible desde identidad + cliente + entrada. |
 | **Aprendizaje** | `feedback/` | Tránsito. Su destino es desaparecer dentro de la identidad. |
 
 Regla que se deriva de la tabla: **si borras todo lo derivado, el sistema sigue siendo el mismo.**
@@ -64,8 +65,8 @@ Si borras la identidad, no queda nada.
 ### Identificador de corrida
 
 `AAAA-MM-DD-<slug-del-encargo>`, minúsculas y guiones. Es la llave de todo el expediente y el
-nombre de la carpeta en `runs/`. Cuando una corrida tiene etapa comercial previa, `propuestas/`
-usa el mismo identificador para poder cruzarlas.
+nombre de la carpeta en `clientes/<cliente>/runs/`. Cuando una corrida tiene etapa comercial
+previa, `clientes/<cliente>/propuestas/` usa el mismo identificador para poder cruzarlas.
 
 ---
 
@@ -77,7 +78,7 @@ sequenceDiagram
     participant C as coordinador
     participant PL as planificador
     participant E as especialista (xN)
-    P->>C: encargo + material en input/
+    P->>C: encargo + material en clientes/cliente/input/
     C->>C: brief.md
     C->>PL: brief.md
     PL->>C: clasificacion.md + plan.md
@@ -106,15 +107,17 @@ hay cadenas de agentes delegando en agentes.
 
 | Ruta | Quién escribe |
 |---|---|
-| `input/` | La persona. El sistema solo lee. |
-| `runs/<corrida>/adjuntos/<lote>/` | coordinador, una vez, sin modificar el original |
-| `runs/<corrida>/adjuntos/_texto/` | `ingesta.py` |
-| `runs/<corrida>/brief.md` | coordinador |
-| `runs/<corrida>/clasificacion.md`, `plan.md` | planificador |
-| `runs/<corrida>/ordenes/<miembro>.md` | coordinador |
-| `runs/<corrida>/partidas/<miembro>.md` | el especialista dueño de ese archivo |
-| `runs/<corrida>/consolidado.md`, `salida/` | coordinador |
-| `propuestas/<id>/` | coordinador (flujo `proponer`) |
+| `clientes/<cliente>/CLAUDE.md` | La persona. Un agente puede **proponer** cambios a la ficha. |
+| `clientes/<cliente>/notas.md` | coordinador, al cerrar una corrida, con lo que la persona confirme |
+| `clientes/<cliente>/input/` | La persona. El sistema solo lee. |
+| `clientes/<cliente>/runs/<corrida>/adjuntos/<lote>/` | coordinador, una vez, sin modificar el original |
+| `clientes/<cliente>/runs/<corrida>/adjuntos/_texto/` | `ingesta.py` |
+| `clientes/<cliente>/runs/<corrida>/brief.md` | coordinador |
+| `clientes/<cliente>/runs/<corrida>/clasificacion.md`, `plan.md` | planificador |
+| `clientes/<cliente>/runs/<corrida>/ordenes/<miembro>.md` | coordinador |
+| `clientes/<cliente>/runs/<corrida>/partidas/<miembro>.md` | el especialista dueño de ese archivo |
+| `clientes/<cliente>/runs/<corrida>/consolidado.md`, `salida/` | coordinador |
+| `clientes/<cliente>/propuestas/<id>/` | coordinador (flujo `proponer`) |
 | `staff/`, `packs/`, `refs/`, `plantillas/`, `CLAUDE.md` | Solo la persona. Un agente puede **proponer** cambios; no los aplica solo. |
 | `feedback/_bruto/` | La persona |
 | `feedback/GLOBAL.md`, `feedback/staff/`, `feedback/packs/` | coordinador, al cerrar una corrida, con lo que la persona confirme |
@@ -130,16 +133,16 @@ Los tres comparten el tramo de entendimiento y se separan en el destino.
 
 | Skill | Cuándo | Produce | Termina en |
 |---|---|---|---|
-| `proponer` | Todavía hay que cotizar o convencer | Propuesta comercial | `propuestas/<id>/propuesta.pdf` |
-| `ejecutar` | El trabajo está aprobado | Corrida completa | `runs/<id>/consolidado.md` |
-| `entregar` | La ejecución está lista | Entregable con forma | `runs/<id>/salida/` |
+| `proponer` | Todavía hay que cotizar o convencer | Propuesta comercial | `clientes/<cliente>/propuestas/<id>/propuesta.pdf` |
+| `ejecutar` | El trabajo está aprobado | Corrida completa | `clientes/<cliente>/runs/<id>/consolidado.md` |
+| `entregar` | La ejecución está lista | Entregable con forma | `clientes/<cliente>/runs/<id>/salida/` |
 
 ### `proponer`
 
-1. Ingesta y `brief.md` en `propuestas/<id>/`.
+1. Ingesta y `brief.md` en `clientes/<cliente>/propuestas/<id>/`.
 2. Clasificación: pack, staff, entradas mínimas faltantes.
 3. Cuantificación **gruesa**: los especialistas entregan magnitud y rango, no partidas cerradas.
-   Si el detalle del cálculo merece quedar escrito, va en `propuestas/<id>/estimacion.md`.
+   Si el detalle del cálculo merece quedar escrito, va en `clientes/<cliente>/propuestas/<id>/estimacion.md`.
 4. Armado del documento con `plantillas/estructura-propuesta.md`.
 5. Cierre: supuestos que sostienen el precio, y qué lo cambiaría.
 
@@ -169,8 +172,8 @@ idéntico cada vez que se ejecuta.
 
 ### `.claude/scripts/ingesta.py`
 
-**Contrato.** Entrada: una ruta de corrida y un lote en `runs/<corrida>/adjuntos/<lote>/`.
-Salida: un archivo de texto por adjunto en `runs/<corrida>/adjuntos/_texto/`, más un índice.
+**Contrato.** Entrada: una ruta de corrida y un lote en `clientes/<cliente>/runs/<corrida>/adjuntos/<lote>/`.
+Salida: un archivo de texto por adjunto en `clientes/<cliente>/runs/<corrida>/adjuntos/_texto/`, más un índice.
 
 Requisitos:
 
@@ -182,6 +185,20 @@ Requisitos:
   silencio**: un adjunto ilegible que nadie reporta es la forma más común de perder un dato del
   cliente.
 - Determinista: la misma entrada produce la misma salida.
+
+### `.claude/hooks/aislar-cliente.py`
+
+**Contrato.** Hook `PreToolUse`. Entrada: el JSON de la herramienta que el agente va a usar.
+Salida: la deja pasar, o la bloquea con código 2 y la razón en stderr.
+
+Requisitos:
+
+- El cliente activo es la carpeta `clientes/<cliente>/` abierta como proyecto.
+- Bloquea cualquier ruta dentro de otra carpeta de `clientes/`, y cualquier búsqueda cuyo alcance
+  contenga `clientes/` completo.
+- Las carpetas con prefijo `_` se pueden leer; una carpeta de cliente que aún no existe se puede
+  crear.
+- Ante una entrada que no entiende, avisa y deja pasar: un hook roto no paraliza la oficina.
 
 ### `.claude/scripts/resolver.py`
 
@@ -261,9 +278,9 @@ divergencia se corrija siempre en la misma dirección:
 |---|---|---|
 | `.claude/agents/*.md` | El formato de salida de cada rol | **Normativo.** Manda. El contrato pertenece a quien emite el archivo. |
 | Este documento, tabla de arriba | Secciones mínimas exigibles | **Invariante.** La regla corta, que no cambia aunque el formato se afine. |
-| `runs/_id-corrida/*` | Cómo se ve una corrida | **Ilustrativo.** No manda nunca, y se puede borrar. |
+| `clientes/_cliente-ejemplo/runs/_id-corrida/*` | Cómo se ve una corrida | **Ilustrativo.** No manda nunca, y se puede borrar. |
 
-El formato operativo **no vive en `runs/_id-corrida/`** a propósito: esa carpeta lleva prefijo `_`,
+El formato operativo **no vive en `_cliente-ejemplo/`** a propósito: esa carpeta lleva prefijo `_`,
 y `PERSONALIZAR.md` invita a borrarla cuando deje de servir de referencia. Nada desechable puede
 ser una dependencia de ejecución.
 
@@ -271,8 +288,13 @@ ser una dependencia de ejecución.
 
 ## 8. Estado, concurrencia y reproducibilidad
 
-- **La corrida es la unidad de aislamiento.** Todo el estado de un encargo vive dentro de
-  `runs/<id>/`. No hay estado global mutable.
+- **El cliente es la unidad de aislamiento; la corrida, la unidad de trabajo.** Todo el estado de
+  un encargo vive dentro de `clientes/<cliente>/runs/<id>/`, y todo lo de un cliente dentro de
+  `clientes/<cliente>/`. No hay estado global mutable salvo `feedback/`, que por eso se escribe
+  anonimizado.
+- **Una sesión por cliente.** Cada cliente se trabaja abriendo su carpeta como proyecto en
+  Claude Code: carga su `CLAUDE.md` además del de la raíz, empieza sin contexto de otros clientes
+  y activa el hook de aislamiento (regla R13).
 - **Paralelismo seguro por diseño:** varios especialistas corren a la vez porque cada uno escribe un
   archivo distinto. El plan declara las dependencias que impiden ese paralelismo.
 - **Reproducibilidad:** identidad + adjuntos + brief deberían reconstruir la corrida. Lo que rompe
@@ -297,6 +319,9 @@ Dos reglas que sostienen el ciclo:
    criterio sin supervisión deriva sin que nadie note cuándo empezó.
 2. **Lo incorporado se marca**, con fecha y destino. Es lo que permite distinguir el feedback vivo
    del histórico.
+3. **Solo sube lo generalizable.** Lo que vale para un único cliente se queda en su `notas.md`; lo
+   que sube a `feedback/` va sin nombre ni datos del cliente. Una preferencia de un cliente
+   promovida a `staff/` o `packs/` se aplicaría a todos los demás.
 
 ---
 
@@ -327,6 +352,13 @@ Escritos a propósito, para que nadie los descubra en producción:
   mercados pide dos repositorios o un cambio en el bloque de contexto local.
 - **La calidad depende de la identidad escrita.** Con `staff/` pobre, el sistema produce trabajo
   pobre con excelente trazabilidad.
+- **El hook de aislamiento es una red, no un muro.** En Bash revisa las rutas escritas en el
+  comando; una ruta construida en tiempo de ejecución no la detecta. La regla R13 es la que manda.
+- **La configuración de cada cliente es una copia.** `clientes/<cliente>/.claude/settings.json`
+  se copia de `_PLANTILLA/` al dar de alta el cliente: un cambio posterior en la plantilla no llega
+  solo a los clientes existentes.
+- **El anonimizado de `feedback/` depende del criterio.** Ningún script verifica que una anotación
+  no identifique a un cliente: lo revisa la persona al aprobar la promoción.
 - **Las plantillas `.potx` no se generan solas.** El sistema respeta el guion en markdown; la
   construcción del documento final depende de las herramientas disponibles.
 
@@ -361,8 +393,9 @@ criterio, es trabajo de un agente.
 | Skills (`proponer`, `ejecutar`, `entregar`) | Escritas |
 | Moldes de `staff/` (ejecución, diagnóstico, transversal) | Escritos |
 | `packs/`: `README`, `_PLANTILLA`, dos ejemplos y `registry.yaml` | Escritos |
-| `runs/`: `README` y moldes ilustrativos de corrida | Escritos |
+| `clientes/`: `README`, `_PLANTILLA` y `_cliente-ejemplo` con moldes de corrida y propuesta | Escritos |
+| Hook de aislamiento entre clientes (`aislar-cliente.py`) | Escrito y probado |
 | Scripts (`ingesta.py`, `resolver.py`) | Escritos y probados, sin dependencias externas |
-| `staff/_PLANTILLA`, `refs/`, `plantillas/`, `feedback/`, `propuestas/` | Escritos |
+| `staff/_PLANTILLA`, `refs/`, `plantillas/`, `feedback/` | Escritos |
 | `.claude/settings.json` (permisos del proyecto) | Escrito |
 | Ejemplos (`construccion`, `agencia-marketing`) | Pendientes |

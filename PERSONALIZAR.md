@@ -29,7 +29,7 @@ programar: todo lo que vas a completar son archivos de texto.
 | 4 | `packs/registry.yaml` | Cómo se reconoce cada encargo | Sí |
 | 5 | `refs/INDEX.md` | Qué normas o estándares rigen | Sí, aunque sea breve |
 | 6 | `plantillas/estructura-*.md` | La forma de propuestas y entregables | Sí |
-| 7 | Tu primer encargo | El sistema funcionando | — |
+| 7 | `clientes/<cliente>/` y tu primer encargo | El sistema funcionando, un cliente aislado | Sí, al menos uno |
 | 8 | `feedback/` | Cómo el sistema aprende de sus errores | Después de la primera corrida |
 
 ---
@@ -38,7 +38,8 @@ programar: todo lo que vas a completar son archivos de texto.
 
 1. Renombra la carpeta del repositorio con el nombre de tu negocio, si quieres.
 2. **No borres todavía** las carpetas con prefijo `_`: son moldes y ejemplos de forma
-   (`_PLANTILLA/`, `_miembro-1/`, `_pack-1/`, `_id-corrida/`, `_norma.md`). Te sirven de referencia
+   (`_PLANTILLA/`, `_miembro-1/`, `_pack-1/`, `_cliente-ejemplo/`, `_id-corrida/`, `_norma.md`).
+   Te sirven de referencia
    mientras completas. Cuando ya tengas tus propias piezas, puedes eliminar las de ejemplo y
    conservar solo los `_PLANTILLA/`.
 3. Mira `ejemplos/` para ver dos instanciaciones distintas del mismo esqueleto. Están aplanadas con
@@ -289,10 +290,19 @@ Aquí vive la firma profesional de la oficina. Los `.potx` son la identidad visu
 
 ---
 
-## Paso 7 — Tu primer encargo
+## Paso 7 — Tu primer cliente y tu primer encargo
 
-Deja el material crudo en `input/` y escribe un encargo con esta forma. Un buen encargo trae siete
-cosas; si faltan las dos últimas, el agente inventa supuestos.
+Cada cliente vive en su propia carpeta y se trabaja en su propia sesión (regla R13):
+
+1. Copia `clientes/_PLANTILLA/` a `clientes/<slug-del-cliente>/`, incluida la carpeta oculta
+   `.claude/`.
+2. Completa su `CLAUDE.md`: marca, contactos, quién decide, preferencias y vetos.
+3. Abre `clientes/<slug-del-cliente>/` como proyecto en Claude Code. **No trabajes clientes desde la
+   raíz del repositorio**: desde ahí el hook de aislamiento no deja leer ninguno.
+
+Desde esa sesión, deja el material crudo en `input/` —el de la carpeta del cliente— y escribe un
+encargo con esta forma. Un buen encargo trae siete cosas; si faltan las dos últimas, el agente
+inventa supuestos.
 
 ```text
 Encargo nuevo: <título del encargo>.
@@ -336,6 +346,10 @@ destilado, a estos archivos.
 **Estado.** <pendiente | incorporado el <fecha>>
 ```
 
+Antes de anotar, pregunta: **¿esto aplicaría a otro cliente?** Si no, va a
+`clientes/<cliente>/notas.md`, no aquí. Lo que sí sube a `feedback/` se escribe sin el nombre del
+cliente ni datos que lo identifiquen: `feedback/` lo leen las corridas de todos tus clientes.
+
 El feedback es **tránsito, no bodega**: cuando una corrección se repite, se escribe en el archivo
 que corresponde y se marca como incorporada. Un `feedback/` que solo crece significa que el
 sistema no está aprendiendo.
@@ -344,7 +358,7 @@ sistema no está aprendiendo.
 
 ## Cómo saber que la personalización quedó bien
 
-Cuatro pruebas rápidas, todas sobre una corrida de prueba:
+Cinco pruebas rápidas, todas sobre una corrida de prueba:
 
 1. **Prueba del extraño.** Dale solo `CLAUDE.md` a alguien de otro rubro. Si no puede explicar qué
    vendes y a quién, falta el paso 1.
@@ -354,6 +368,8 @@ Cuatro pruebas rápidas, todas sobre una corrida de prueba:
    falta el "qué la distingue" del paso 1.
 4. **Prueba del no.** Pídele algo fuera de tu alcance. Si no dice "esto no lo hacemos" y te deriva,
    faltan los límites del bloque 3.
+5. **Prueba del vecino.** Con dos clientes creados, abre uno y pídele que use la paleta del otro.
+   Si no se niega, revisa que la carpeta tenga su `.claude/settings.json` con el hook.
 
 ## Errores comunes al personalizar
 
@@ -378,7 +394,8 @@ Cuatro pruebas rápidas, todas sobre una corrida de prueba:
 - [ ] `packs/registry.yaml` clasificando bien tres encargos reales del pasado.
 - [ ] `refs/INDEX.md` con lo que de verdad rige.
 - [ ] Los dos guiones de `plantillas/`.
-- [ ] Una corrida de prueba completa, de principio a fin.
+- [ ] Un cliente en `clientes/`, con su ficha completa, abierto como proyecto propio.
+- [ ] Una corrida de prueba completa, de principio a fin, desde la carpeta de ese cliente.
 - [ ] Primera anotación en `feedback/`, aunque sea para decir qué salió bien.
 
 Cuando termines, el repositorio dejó de ser un esqueleto y pasó a ser tu oficina. A partir de ahí

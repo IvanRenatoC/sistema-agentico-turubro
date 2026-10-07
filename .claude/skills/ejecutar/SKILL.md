@@ -6,7 +6,8 @@ description: Ejecuta un encargo aprobado de principio a fin: abre la corrida, en
 # Flujo: ejecutar
 
 **Objetivo.** Convertir un encargo aprobado en trabajo terminado y trazable dentro de
-`runs/<corrida>/`, con el criterio escrito de la oficina y no con criterio improvisado.
+`clientes/<cliente>/runs/<corrida>/`, con el criterio escrito de la oficina y no con criterio
+improvisado.
 
 Es el camino por defecto. Este archivo es **normativo** para el flujo; la sección 4 de
 `docs/ARQUITECTURA.md` es su resumen invariante.
@@ -19,15 +20,17 @@ Es el camino por defecto. Este archivo es **normativo** para el flujo; la secci�
    `feedback/staff/` y `feedback/packs/` de las piezas que se activen.
 3. **Confirma que el encargo está aprobado.** Si todavía hay que cotizar o convencer, el flujo que
    corresponde es `proponer`.
+4. **Confirma el cliente y lee su ficha.** La sesión debe estar abierta en `clientes/<cliente>/`
+   (regla R13). Lee su `CLAUDE.md` y su `notas.md` antes del brief.
 
 ## Pasos
 
 ### 1. Abrir la corrida
 
 - Identificador: `AAAA-MM-DD-<slug-del-encargo>`, minúsculas y guiones. Si hubo propuesta previa,
-  **usa el mismo identificador** que en `propuestas/` para poder cruzarlas.
-- Archiva el material recibido en `runs/<corrida>/adjuntos/<AAAA-MM-DD>-<lote>/`, **sin modificar
-  ningún original**.
+  **usa el mismo identificador** que en `clientes/<cliente>/propuestas/` para poder cruzarlas.
+- Archiva el material recibido en `clientes/<cliente>/runs/<corrida>/adjuntos/<AAAA-MM-DD>-<lote>/`,
+  **sin modificar ningún original**.
 - Ejecuta la ingesta a `adjuntos/_texto/`. Lo que no se pueda convertir queda registrado como no
   convertible, con la razón: nada falla en silencio.
 
@@ -89,11 +92,11 @@ Lo que salió mal se anota en `feedback/`. Cuando una corrección se repite, **p
 
 | Archivo | Autor |
 |---|---|
-| `runs/<corrida>/brief.md` | coordinador |
-| `runs/<corrida>/clasificacion.md`, `plan.md` | planificador |
-| `runs/<corrida>/ordenes/<miembro>.md` | coordinador |
-| `runs/<corrida>/partidas/<miembro>.md` | cada especialista |
-| `runs/<corrida>/consolidado.md` | coordinador |
+| `clientes/<cliente>/runs/<corrida>/brief.md` | coordinador |
+| `clientes/<cliente>/runs/<corrida>/clasificacion.md`, `plan.md` | planificador |
+| `clientes/<cliente>/runs/<corrida>/ordenes/<miembro>.md` | coordinador |
+| `clientes/<cliente>/runs/<corrida>/partidas/<miembro>.md` | cada especialista |
+| `clientes/<cliente>/runs/<corrida>/consolidado.md` | coordinador |
 
 ## Reglas del flujo
 

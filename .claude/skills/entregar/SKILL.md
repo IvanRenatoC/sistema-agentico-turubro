@@ -25,6 +25,8 @@ esto viviera dentro de `ejecutar`, cada cambio de formato sería una corrida nue
    ejecutado; `estructura-propuesta.md` si lo que se arma es comercial.
 3. **Lee la voz** en `CLAUDE.md`: tono, tratamiento, extensión por defecto y lo que nunca se pone
    por escrito.
+4. **Lee la ficha del cliente** en `clientes/<cliente>/CLAUDE.md` y `notas.md`: su identidad de
+   marca y sus vetos mandan sobre la forma, dentro de los límites de la casa.
 
 ## Pasos
 
@@ -61,8 +63,8 @@ técnica, se explica; no se simplifica hasta que deje de ser cierto.
 
 ### 5. Dejar el entregable y cerrar
 
-En `runs/<corrida>/salida/`. Cierra con las tres líneas de siempre: qué decidiste por tu cuenta,
-qué debe revisar la persona, qué queda abierto.
+En `clientes/<cliente>/runs/<corrida>/salida/`. Cierra con las tres líneas de siempre: qué decidiste
+por tu cuenta, qué debe revisar la persona, qué queda abierto.
 
 **No se envía al cliente.** Queda listo para que una persona lo revise, lo asuma y lo firme.
 
@@ -70,7 +72,7 @@ qué debe revisar la persona, qué queda abierto.
 
 | Archivo | Contenido |
 |---|---|
-| `runs/<corrida>/salida/<entregable>` | El documento con la forma de la casa |
+| `clientes/<cliente>/runs/<corrida>/salida/<entregable>` | El documento con la forma de la casa |
 | Cierre en el chat | Faltantes pedidos, secciones justificadas y qué debe revisarse |
 
 ## Reglas del flujo

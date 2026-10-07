@@ -18,7 +18,7 @@ Requisitos que este script cumple, y que hay que preservar al modificarlo:
 
 Uso:
     python3 .claude/scripts/resolver.py --texto "se rompio una viga del galpon"
-    python3 .claude/scripts/resolver.py --brief runs/<corrida>/brief.md
+    python3 .claude/scripts/resolver.py --brief clientes/<cliente>/runs/<corrida>/brief.md
     python3 .claude/scripts/resolver.py --senales "soldadura,estructura"
     python3 .claude/scripts/resolver.py --validar
     python3 .claude/scripts/resolver.py --texto "..." --json
@@ -207,7 +207,8 @@ def main():
     g.add_argument("--texto", help="texto del encargo")
     g.add_argument("--brief", help="ruta a un brief.md")
     g.add_argument("--senales", help="lista explícita separada por comas")
-    ap.add_argument("--raiz", default=".", help="raíz del repositorio")
+    ap.add_argument("--raiz", default=str(pathlib.Path(__file__).resolve().parents[2]),
+                    help="raíz del repositorio (por omisión, la que contiene este script)")
     ap.add_argument("--validar", action="store_true", help="solo validar el registry")
     ap.add_argument("--json", action="store_true", dest="como_json", help="salida en JSON")
     ap.add_argument("--parser", choices=("auto", "interno"), default="auto",

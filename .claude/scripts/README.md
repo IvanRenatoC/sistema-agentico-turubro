@@ -6,20 +6,24 @@ mecánico se degrada si se deja al criterio.
 
 Sin dependencias externas: solo la biblioteca estándar de Python 3.
 
+Los dos scripts encuentran solos la raíz del repositorio, así que funcionan igual desde la raíz que
+desde la carpeta de un cliente. Desde un cliente se invocan como `python3 ../../.claude/scripts/<script>`.
+
 | Script | Qué hace | Contrato |
 |---|---|---|
 | `ingesta.py` | Normaliza los adjuntos de una corrida a texto trazable | `docs/ARQUITECTURA.md` §5 |
 | `resolver.py` | Traduce señales de un encargo en packs, staff y referencias | `docs/ARQUITECTURA.md` §5 y §6 |
+| `../hooks/aislar-cliente.py` | Hook que impide que una sesión lea o escriba en otro cliente | `CLAUDE.md` R13 |
 
 ## `ingesta.py`
 
 ```bash
-python3 .claude/scripts/ingesta.py --corrida 2026-09-12-galpon-lo-espejo
-python3 .claude/scripts/ingesta.py --corrida <id> --lote 2026-09-12-fotos
-python3 .claude/scripts/ingesta.py --corrida <id> --dry-run
+python3 .claude/scripts/ingesta.py --cliente agricola-san-marcos --corrida 2026-09-12-galpon-lo-espejo
+python3 .claude/scripts/ingesta.py --cliente <cliente> --corrida <id> --lote 2026-09-12-fotos
+python3 .claude/scripts/ingesta.py --cliente <cliente> --corrida <id> --dry-run
 ```
 
-Lee `runs/<corrida>/adjuntos/<lote>/` y escribe un `.md` por archivo en `adjuntos/_texto/`, más un
+Lee `clientes/<cliente>/runs/<corrida>/adjuntos/<lote>/` y escribe un `.md` por archivo en `adjuntos/_texto/`, más un
 `INDEX.md`. Cada salida abre con cabecera de procedencia: archivo original, lote, bytes, sha256 y
 fecha del original.
 
@@ -37,7 +41,7 @@ Salidas: `0` terminó (los no convertibles se reportan, no fallan) · `1` error 
 
 ```bash
 python3 .claude/scripts/resolver.py --texto "se rompió una viga del galpón"
-python3 .claude/scripts/resolver.py --brief runs/<corrida>/brief.md
+python3 .claude/scripts/resolver.py --brief clientes/<cliente>/runs/<corrida>/brief.md
 python3 .claude/scripts/resolver.py --senales "soldadura,estructura"
 python3 .claude/scripts/resolver.py --validar
 python3 .claude/scripts/resolver.py --texto "..." --json

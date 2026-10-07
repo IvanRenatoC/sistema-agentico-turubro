@@ -27,19 +27,21 @@ competitiva: es más barata de perder.
    justamente voz y límites. Si falta, detente y dilo.
 2. **Lee `feedback/packs/`** del servicio que se va a ofrecer: ahí está lo que no convenció antes.
 3. **Confirma que es etapa comercial.** Si el trabajo ya está aprobado, el flujo es `ejecutar`.
+4. **Confirma el cliente y lee su ficha.** La sesión debe estar abierta en `clientes/<cliente>/`
+   (regla R13). Si es un cliente nuevo, primero se crea su carpeta desde `clientes/_PLANTILLA/`.
 
 ## Pasos
 
 ### 1. Abrir la carpeta de la propuesta
 
-`propuestas/AAAA-MM-DD-<slug-del-encargo>/`. Este flujo **no abre corrida en `runs/`**: si la
-propuesta se aprueba, `ejecutar` abre `runs/` con **el mismo identificador**, y así se puede cruzar
-lo ofrecido con lo ejecutado.
+`clientes/<cliente>/propuestas/AAAA-MM-DD-<slug-del-encargo>/`. Este flujo **no abre corrida en
+`runs/`**: si la propuesta se aprueba, `ejecutar` abre `clientes/<cliente>/runs/` con **el mismo
+identificador**, y así se puede cruzar lo ofrecido con lo ejecutado.
 
 ### 2. Escribir el brief comercial
 
-`propuestas/<id>/brief.md`, con la misma estructura del brief de una corrida y un énfasis distinto:
-qué problema dice tener el cliente, qué muestra el material, **quién decide la compra** y qué
+`clientes/<cliente>/propuestas/<id>/brief.md`, con la misma estructura del brief de una corrida y un
+énfasis distinto: qué problema dice tener el cliente, qué muestra el material, **quién decide la compra** y qué
 tendría que ser verdad para que este servicio sea la respuesta.
 
 ### 3. Clasificar
@@ -54,7 +56,8 @@ Invoca a los **especialistas** que el pack active, con órdenes que pidan explí
 **estimación gruesa**: magnitud, rango y los supuestos que la sostienen. Nada de partidas cerradas
 con información incompleta.
 
-Si el detalle del cálculo merece quedar escrito, va en `propuestas/<id>/estimacion.md`.
+Si el detalle del cálculo merece quedar escrito, va en
+`clientes/<cliente>/propuestas/<id>/estimacion.md`.
 
 **Ningún valor inventado.** Lo que no está en un `costos.md` se declara como supuesto y se avisa.
 
@@ -74,8 +77,8 @@ precios cerrados sin visita, resultados de negocio asegurados.
 - **Validez de la propuesta.**
 - Y para la persona, no para el cliente: qué decidiste por tu cuenta y qué debe revisar.
 
-La propuesta enviada queda archivada como `propuestas/<id>/propuesta.pdf`: es la versión firmada en
-el tiempo, y no se edita después.
+La propuesta enviada queda archivada como `clientes/<cliente>/propuestas/<id>/propuesta.pdf`:
+es la versión firmada en el tiempo, y no se edita después.
 
 ### 7. Registrar el desenlace
 
@@ -90,9 +93,9 @@ servicios.**
 
 | Archivo | Contenido |
 |---|---|
-| `propuestas/<id>/brief.md` | El encargo entendido en etapa comercial |
-| `propuestas/<id>/estimacion.md` | Opcional: el detalle del cálculo grueso y sus supuestos |
-| `propuestas/<id>/propuesta.pdf` | El documento enviado |
+| `clientes/<cliente>/propuestas/<id>/brief.md` | El encargo entendido en etapa comercial |
+| `clientes/<cliente>/propuestas/<id>/estimacion.md` | Opcional: el detalle del cálculo grueso y sus supuestos |
+| `clientes/<cliente>/propuestas/<id>/propuesta.pdf` | El documento enviado |
 
 ## Reglas del flujo
 

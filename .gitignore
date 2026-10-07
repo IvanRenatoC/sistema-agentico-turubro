@@ -10,8 +10,8 @@ Thumbs.db
 .claude/settings.local.json
 
 # --- Material de clientes: zona de paso, no se versiona ---
-input/*
-!input/.gitkeep
+clientes/*/input/*
+!clientes/*/input/.gitkeep
 
 # --- Documentos normativos originales ---
 # Ignorados por defecto: muchos estandares se compran y su licencia prohibe
@@ -28,11 +28,11 @@ __pycache__/
 venv/
 
 # --- Confidencialidad: activar cuando empieces a trabajar con clientes ---
-# Estas rutas contienen nombres de clientes, precios y material que te
-# entregaron. Que se versionen o no depende de la visibilidad de tu repo:
+# clientes/ contiene nombres de clientes, precios y material que te
+# entregaron. Que se versione o no depende de la visibilidad de tu repo:
 #   repositorio privado -> deja las reglas comentadas, la trazabilidad vale mas
-#   repositorio publico  -> descomenta, y conserva solo las carpetas de ejemplo
-# runs/*/adjuntos/
-# runs/*/salida/
-# propuestas/*
-# !propuestas/_AAAA-MM-DD-corrida/
+#   repositorio publico  -> descomenta, y conserva solo el molde y el ejemplo
+# clientes/*
+# !clientes/README.md
+# !clientes/_PLANTILLA/
+# !clientes/_cliente-ejemplo/

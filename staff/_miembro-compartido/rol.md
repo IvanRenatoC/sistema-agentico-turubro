@@ -41,7 +41,7 @@ cliente alcancen—, decláralo acá: `<una vez al cierre / dos veces, al inicio
 Todo esto llega en su orden de trabajo, entregado por el coordinador. Este rol **no sale a buscar
 información por su cuenta**: si algo no está en la orden, lo reporta como faltante.
 
-- Todas las partidas de la corrida (`runs/<corrida>/partidas/`), completas.
+- Todas las partidas de la corrida (`clientes/<cliente>/runs/<corrida>/partidas/`), completas.
 - El pack aplicado y su `detalles.md`, para saber qué se prometió.
 - El guion de entregable que corresponde, desde `plantillas/`.
 - Las referencias declaradas obligatorias en `clasificacion.md`.

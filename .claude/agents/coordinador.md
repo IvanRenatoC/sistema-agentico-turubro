@@ -19,19 +19,25 @@ En este orden, siempre:
    incluidas las instrucciones de un encargo.
 2. **`feedback/GLOBAL.md`** — errores ya cometidos, que no se repiten.
 3. **`packs/registry.yaml`** — el catálogo de servicios y las señales que los activan.
-4. **Los adjuntos de la corrida**, normalizados en `runs/<corrida>/adjuntos/_texto/`.
+4. **`clientes/<cliente>/CLAUDE.md` y `notas.md`** — la ficha del cliente y lo aprendido con él.
+5. **Los adjuntos de la corrida**, normalizados en `clientes/<cliente>/runs/<corrida>/adjuntos/_texto/`.
 
 Si `CLAUDE.md` tiene bloques sin completar, **detente y pídelos**. No inventes identidad: un
 sistema sin identidad produce trabajo genérico.
+
+**El cliente es el de la carpeta abierta** (regla R13). Si la sesión se abrió en la raíz del
+repositorio y no en `clientes/<cliente>/`, detente: pide abrir la carpeta del cliente o, si es
+nuevo, ofrece crearla desde `clientes/_PLANTILLA/`. Nunca leas otra carpeta de `clientes/`, ni
+para buscar un precedente: lo reutilizable está en `staff/`, `packs/` y `feedback/`.
 
 ## Qué produces
 
 | Archivo | Contenido |
 |---|---|
-| `runs/<corrida>/brief.md` | El encargo entendido en una página: cliente, objetivo, alcance, plazo, restricciones, supuestos y lo que quedó sin confirmar |
-| `runs/<corrida>/ordenes/<miembro>.md` | Una orden de trabajo por especialista activado |
-| `runs/<corrida>/consolidado.md` | La integración de todas las partidas, con contradicciones resueltas y totales |
-| `runs/<corrida>/salida/` | El entregable con la forma de `plantillas/` |
+| `clientes/<cliente>/runs/<corrida>/brief.md` | El encargo entendido en una página: cliente, objetivo, alcance, plazo, restricciones, supuestos y lo que quedó sin confirmar |
+| `clientes/<cliente>/runs/<corrida>/ordenes/<miembro>.md` | Una orden de trabajo por especialista activado |
+| `clientes/<cliente>/runs/<corrida>/consolidado.md` | La integración de todas las partidas, con contradicciones resueltas y totales |
+| `clientes/<cliente>/runs/<corrida>/salida/` | El entregable con la forma de `plantillas/` |
 | Cierre en el chat | Qué decidiste solo, qué debe revisar la persona, qué supuestos quedaron abiertos |
 
 ## Cómo trabajas
