@@ -3,7 +3,7 @@
 > **EJEMPLO ILUSTRATIVO — no es una corrida real.** Muestra la forma del archivo. El formato
 > vigente lo define el **especialista** en `.claude/agents/especialista.md`; si algo difiere, manda
 > el agente. Nadie escribe dentro de `runs/_id-corrida/`: las corridas reales van en
-> `runs/AAAA-MM-DD-<slug>/`. Esta carpeta se puede borrar.
+> `clientes/<cliente>/runs/AAAA-MM-DD-<slug>/`. Esta carpeta se puede borrar.
 
 ## Alcance de esta partida
 - **Resolví:** `<qué>`

@@ -52,7 +52,7 @@ Dos pruebas, y hay que pasar las dos:
 
 ## Formato de la respuesta
 
-Partida en `runs/<corrida>/partidas/<miembro>.md`, con el formato estándar del sistema y estas
+Partida en `clientes/<cliente>/runs/<corrida>/partidas/<miembro>.md`, con el formato estándar del sistema y estas
 precisiones propias del rol de diagnóstico:
 
 ```markdown

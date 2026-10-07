@@ -1,15 +1,17 @@
 # `propuestas/` — lo que se ofreció, antes de ejecutar
 
-Una carpeta por propuesta, con el mismo formato de identificador que una corrida:
-`AAAA-MM-DD-<slug-del-encargo>`. Es el archivo comercial de la oficina: **qué se ofreció, a qué
+Vive dentro de la carpeta de cada cliente: `clientes/<cliente>/propuestas/`. Una carpeta por
+propuesta, con el mismo formato de identificador que una corrida: `AAAA-MM-DD-<slug-del-encargo>`. Es el archivo comercial de la oficina: **qué se ofreció, a qué
 precio y sobre qué supuestos**.
 
 La escribe el flujo `proponer`. No abre corrida en `runs/`.
 
+La forma de una propuesta se ve en `clientes/_cliente-ejemplo/propuestas/_AAAA-MM-DD-corrida/`.
+
 ## La relación con `runs/`
 
 **El identificador es el puente.** Si la propuesta se aprueba, `ejecutar` abre
-`runs/<mismo-identificador>/` y reutiliza el brief.
+`runs/<mismo-identificador>/`, en la misma carpeta del cliente, y reutiliza el brief.
 
 | | `propuestas/<id>/` | `runs/<id>/` |
 |---|---|---|
@@ -52,11 +54,8 @@ servicios.**
 ## Privacidad y `.gitignore`
 
 Estas carpetas contienen nombres de clientes y precios. La decisión depende de la visibilidad de tu
-repositorio, y es tuya:
-
-- **Repositorio privado:** versiona todo. La trazabilidad de lo ofrecido vale más que el peso.
-- **Repositorio público:** agrega `propuestas/*` al `.gitignore` con excepción de la carpeta de
-  ejemplo. La regla está escrita y comentada al final del `.gitignore`, lista para activar.
+repositorio, y es tuya: ver `clientes/README.md`. La regla para un repositorio público está escrita
+y comentada al final del `.gitignore`, lista para activar.
 
 La diferencia con `refs/originales/` —que se ignora por defecto— es que ahí el problema es legal
 (licencias de terceros) y aquí es de confidencialidad, que depende de dónde publiques.

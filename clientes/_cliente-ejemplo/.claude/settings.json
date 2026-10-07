@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "../../"
+    ],
+    "allow": [
+      "Bash(python3 ../../.claude/scripts/ingesta.py:*)",
+      "Bash(python3 ../../.claude/scripts/resolver.py:*)"
+    ],
+    "deny": [
+      "Write(./input/**)",
+      "Edit(./input/**)",
+      "Edit(./runs/*/adjuntos/**)",
+      "Bash(rm:*)",
+      "Bash(git push:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Write|Edit|MultiEdit|NotebookEdit|Glob|Grep|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/../../.claude/hooks/aislar-cliente.py\""
+          }
+        ]
+      }
+    ]
+  }
+}

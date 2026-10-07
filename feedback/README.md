@@ -40,3 +40,21 @@ nombre del especialista o del servicio real. `GLOBAL.md` no se copia: se usa dir
 Una anotación útil responde cuatro cosas: **qué pasó**, **qué debería haber pasado**, **qué
 criterio no estaba escrito** y **a qué archivo va la corrección**. Sin la última, la anotación se
 queda en queja.
+
+## Lo que no entra aquí: preferencias de un cliente
+
+`feedback/` lo lee **toda corrida, de cualquier cliente**. Por eso, antes de anotar, una pregunta:
+**¿esto aplicaría a otro cliente?**
+
+| Si la respuesta es… | Va a… | Ejemplo |
+|---|---|---|
+| No: es gusto o contexto de ese cliente | `clientes/<cliente>/notas.md` | "No le gustó la paleta café" |
+| Sí: es criterio de la oficina | `feedback/`, anonimizado | "Presentar una sola paleta genera más rondas que presentar tres" |
+
+**Anonimizado** significa sin nombre del cliente, sin sus datos y sin el identificador de la
+corrida si ese identificador lo nombra. El origen se describe por el tipo de encargo: "rebranding
+de cafetería, octubre 2026", no `2026-10-07-rebranding-cafe-aurora`.
+
+Una preferencia de un cliente promovida a `staff/` o `packs/` se convierte en criterio de la casa y
+se aplica a todos los demás. Es la forma más silenciosa de contaminar el trabajo de un cliente con
+el de otro (regla R13).

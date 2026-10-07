@@ -41,14 +41,15 @@ La imagen busca ilustrar la idea del Repositorio que podrás descargar y darle t
 
 ## 2. Los cuatro conceptos que hay que entender
 
-Todo el sistema se apoya en cuatro piezas. Si estas cuatro están bien escritas, el resto funciona.
+Todo el sistema se apoya en cuatro piezas. Las tres primeras son **la oficina** y se escriben una
+vez; la cuarta crece con cada cliente. Si estas cuatro están bien escritas, el resto funciona.
 
 | Concepto | Carpeta | Qué es | Analogía |
 |---|---|---|---|
 | **Staff** | `staff/` | Los especialistas que **ejecutan**. Cada uno con su rol, su método y sus costos. | Tu equipo. |
 | **Packs** | `packs/` | Los **servicios que la oficina ofrece**. Definen alcance, qué incluye, qué no, y qué staff se activa. | Tu carta de servicios. |
 | **Refs** | `refs/` | La **fuente de verdad transversal**: normativa, estándares, tarifarios, manuales de marca. | La biblioteca técnica. |
-| **Corridas** | `runs/` | Cada **encargo concreto** ejecutado, con todo su rastro. | El expediente del trabajo. |
+| **Clientes** | `clientes/` | Una carpeta **aislada por cliente**: su ficha, sus propuestas y sus corridas, cada encargo con todo su rastro. | El archivador, un cajón por cliente. |
 
 El `registry.yaml` es el puente: traduce las señales de un encargo ("soldadura", "galpón",
 "reposicionamiento") en **qué pack aplica** y **qué miembros del staff hay que activar**.
@@ -59,7 +60,7 @@ El `registry.yaml` es el puente: traduce las señales de un encargo ("soldadura"
 
 ```mermaid
 flowchart TD
-    A["input/<br/>material bruto del cliente"] --> B["ingesta.py<br/>normaliza adjuntos a texto"]
+    A["clientes/&lt;cliente&gt;/input/<br/>material bruto del cliente"] --> B["ingesta.py<br/>normaliza adjuntos a texto"]
     B --> C["brief.md<br/>qué se pide, en una página"]
     C --> D["clasificacion.md<br/>¿qué pack? ¿qué staff?"]
     D --> E["plan.md<br/>secuencia, dependencias, supuestos"]
@@ -78,9 +79,12 @@ Ese ciclo se invoca de tres formas según lo que se necesite:
 
 | Skill | Se usa cuando | Produce |
 |---|---|---|
-| `proponer` | Todavía hay que **cotizar o convencer**. | `propuestas/<fecha>-<corrida>/propuesta.pdf` |
-| `ejecutar` | El trabajo está **aprobado** y hay que hacerlo. | `runs/<id-corrida>/` completo |
-| `entregar` | La ejecución está lista y hay que **darle forma de entregable**. | `runs/<id-corrida>/salida/` |
+| `proponer` | Todavía hay que **cotizar o convencer**. | `clientes/<cliente>/propuestas/<id-corrida>/propuesta.pdf` |
+| `ejecutar` | El trabajo está **aprobado** y hay que hacerlo. | `clientes/<cliente>/runs/<id-corrida>/` completo |
+| `entregar` | La ejecución está lista y hay que **darle forma de entregable**. | `clientes/<cliente>/runs/<id-corrida>/salida/` |
+
+Las tres se usan con la sesión abierta en la carpeta del cliente: **un cliente, una sesión**. Así
+ninguna corrida ve el trabajo de otro cliente (ver `clientes/README.md`).
 
 ---
 
@@ -117,8 +121,10 @@ sistema-agentico-turubro/
 │   │   ├── proponer/SKILL.md  Cómo pasar de un encargo a una propuesta comercial.
 │   │   ├── ejecutar/SKILL.md  Cómo pasar de un encargo aprobado a trabajo hecho y consolidado.
 │   │   └── entregar/SKILL.md  Cómo pasar de un consolidado a un entregable presentable.
+│   ├── hooks/
+│   │   └── aislar-cliente.py  Impide que la sesión de un cliente lea o escriba en otro.
 │   └── scripts/               Trabajo determinista, que no conviene dejar al criterio del agente.
-│       ├── ingesta.py         Toma lo que hay en input/ (PDF, imágenes, audio, Office) y lo
+│       ├── ingesta.py         Toma el material del cliente (PDF, imágenes, audio, Office) y lo
 │       │                      normaliza a texto trazable dentro de la corrida.
 │       └── resolver.py        Resuelve el registry: dado un conjunto de señales, devuelve qué
 │                              packs y qué miembros de staff corresponden.
@@ -156,33 +162,6 @@ sistema-agentico-turubro/
 │   │                          día a día, con cita a la fuente original.
 │   └── originales/            Los documentos fuente tal cual (PDF, DOCX). Se citan, no se editan.
 │
-├── input/                     BANDEJA DE ENTRADA. Aquí se deja el material crudo del encargo:
-│   └── .gitkeep               correos, fotos, planos, audios, planillas. Es una zona de paso;
-│                              el contenido no se versiona y se archiva dentro de la corrida.
-│
-├── runs/                      EL EXPEDIENTE de cada encargo ejecutado.
-│   └── _id-corrida/           Nombre sugerido: AAAA-MM-DD-<slug-del-encargo>.
-│       ├── brief.md           Qué se pide, en una página: cliente, objetivo, alcance, plazo,
-│       │                      restricciones, supuestos y lo que quedó pendiente de confirmar.
-│       ├── clasificacion.md   Qué pack aplica, con qué evidencia, qué staff se activa y por qué;
-│       │                      además lo que se descartó y la razón.
-│       ├── plan.md            Secuencia de trabajo, dependencias, riesgos y criterio de cierre.
-│       ├── ordenes/           Lo que se le pide a cada especialista.
-│       │   └── _miembro.md    Orden de trabajo: contexto mínimo, entregable esperado, límites.
-│       ├── partidas/          Lo que cada especialista entregó.
-│       │   └── _miembro.md    Su respuesta: desarrollo, cuantificación, supuestos y alertas.
-│       ├── consolidado.md     Integración de todas las partidas: coherencia entre especialistas,
-│       │                      totales, contradicciones resueltas y decisiones tomadas.
-│       ├── adjuntos/          El material del encargo, archivado junto a la corrida.
-│       │   ├── _AAAA-MM-DD-lote/     Cada lote recibido, con su fecha, sin modificar.
-│       │   └── _texto/        Versión en texto de esos adjuntos, generada por ingesta.py.
-│       └── salida/            El entregable final tal como se envía al cliente.
-│
-├── propuestas/                LO QUE SE OFRECIÓ, antes de ejecutar.
-│   └── _AAAA-MM-DD-corrida/
-│       ├── brief.md           El encargo entendido en etapa comercial.
-│       └── propuesta.pdf      La propuesta enviada. Queda como versión firmada en el tiempo.
-│
 ├── plantillas/                LA FORMA de los documentos: identidad visual y estructura.
 │   ├── propuesta.potx         Identidad visual para propuestas. La creas tú: ver plantillas/README.md.
 │   ├── entregable.potx        Identidad visual para entregables. La creas tú: ver plantillas/README.md.
@@ -204,9 +183,40 @@ sistema-agentico-turubro/
 │   └── ARQUITECTURA.md        El detalle técnico: contratos entre agentes, formato de cada
 │                              archivo, esquema del registry, decisiones de diseño y sus razones.
 │
-└── ejemplos/                  DOS INSTANCIACIONES DE REFERENCIA, para copiar y adaptar.
-    ├── construccion/          Oficina de construcción.
-    └── agencia-marketing/     Agencia de marketing & estrategia.
+├── ejemplos/                  DOS INSTANCIACIONES DE REFERENCIA, para copiar y adaptar.
+│   ├── construccion/          Oficina de construcción.
+│   └── agencia-marketing/     Agencia de marketing & estrategia.
+│
+└── clientes/                  LOS CLIENTES, cada uno en su carpeta y aislado de los demás.
+    ├── README.md              Cómo dar de alta un cliente y por qué se trabaja una sesión por
+    │                          cliente.
+    ├── _PLANTILLA/            Molde que se copia para cada cliente nuevo.
+    ├── _cliente-ejemplo/      Ejemplo de forma, con una corrida y una propuesta ilustrativas.
+    └── <slug-del-cliente>/    Un cliente real. Se abre como proyecto en Claude Code.
+        ├── CLAUDE.md          Su ficha: marca, colores, tono, quién decide, vetos, historial.
+        │                      Se suma al CLAUDE.md de la raíz, no lo reemplaza.
+        ├── notas.md           Lo aprendido con este cliente que solo vale para él.
+        ├── .claude/           Permisos de la sesión y el hook de aislamiento.
+        ├── input/             BANDEJA DE ENTRADA de su material: correos, fotos, planos, audios.
+        │                      Zona de paso: no se versiona y se archiva dentro de la corrida.
+        ├── propuestas/        LO QUE SE LE OFRECIÓ, antes de ejecutar.
+        │   └── AAAA-MM-DD-<slug-del-encargo>/
+        │       ├── brief.md       El encargo entendido en etapa comercial.
+        │       ├── estimacion.md  El cálculo grueso y sus supuestos.
+        │       └── propuesta.pdf  La propuesta enviada. Versión firmada en el tiempo.
+        └── runs/              EL EXPEDIENTE de cada encargo ejecutado.
+            └── AAAA-MM-DD-<slug-del-encargo>/
+                ├── brief.md           Qué se pide, en una página: objetivo, alcance, plazo,
+                │                      restricciones, supuestos y lo pendiente de confirmar.
+                ├── clasificacion.md   Qué pack aplica, con qué evidencia, qué staff se activa.
+                ├── plan.md            Secuencia de trabajo, dependencias, riesgos y cierre.
+                ├── ordenes/           Lo que se le pide a cada especialista.
+                ├── partidas/          Lo que cada especialista entregó.
+                ├── consolidado.md     Integración de las partidas: coherencia, totales y
+                │                      contradicciones resueltas.
+                ├── adjuntos/          El material del encargo: cada lote sin modificar, y su
+                │                      versión en texto en _texto/.
+                └── salida/            El entregable final tal como se envía al cliente.
 ```
 
 ### Convención de los ejemplos
@@ -259,7 +269,7 @@ ejemplos/construccion/
 ```
 
 Los archivos de `staff/` se llenan una vez y sirven para todas las obras. Cada obra nueva solo
-genera una carpeta en `runs/`.
+genera una carpeta en `clientes/<cliente>/runs/`.
 
 ### Prompt de ejemplo — oficina de construcción
 
@@ -267,6 +277,7 @@ genera una carpeta en `runs/`.
 Encargo nuevo: reforzamiento estructural de galpón — Planta Lo Espejo.
 
 Cliente: Agrícola San Marcos. Contacto: Patricia Ruiz, jefa de mantención.
+Sesión abierta en clientes/agricola-san-marcos/.
 En input/ dejé el correo del requerimiento, el plano as-built en PDF y 6 fotos del galpón.
 Fecha de entrega comprometida: viernes 12 de septiembre.
 
@@ -344,6 +355,7 @@ Encargo nuevo: reposicionamiento de marca — Clínica Dental Andes.
 
 Cliente: Clínica Dental Andes (3 sucursales, Santiago). Contacto: Rodrigo Vera, gerente comercial.
 El problema, en sus palabras: "nos comparan solo por precio y estamos perdiendo pacientes nuevos".
+Sesión abierta en clientes/dental-andes/.
 En input/ dejé el brief del cliente en Word, el export de métricas de Meta Ads y Google Ads de los
 últimos 12 meses en CSV, y los 2 audios de la reunión de kickoff.
 Presentación al comité del cliente: jueves 18 de septiembre.
@@ -410,7 +422,8 @@ posible el siguiente:
    rige y deja los originales en `refs/originales/`.
 6. **Dale forma.** Ajusta `plantillas/` a la identidad visual y, más importante, escribe los
    guiones de propuesta y entregable: son la firma profesional de la oficina.
-7. **Corre un encargo real y corrige.** La primera corrida siempre revela criterio faltante. Ese
+7. **Da de alta un cliente y corre un encargo real.** Copia `clientes/_PLANTILLA/`, completa su
+   ficha y abre esa carpeta en Claude Code. La primera corrida siempre revela criterio faltante. Ese
    hallazgo va a `feedback/` y desde ahí a los roles y metodologías.
 
 El detalle operativo de cada paso vive en **`PERSONALIZAR.md`**; las razones de diseño y los
@@ -422,11 +435,13 @@ contratos entre piezas, en **`docs/ARQUITECTURA.md`**.
 
 - **Marcadores de posición.** El prefijo `_` marca lo que no es una instancia real del negocio:
   `_PLANTILLA/` es el molde a copiar y se conserva siempre; `_miembro-1/`, `_pack-1/`,
-  `_id-corrida/` o `_norma.md` son ejemplos de forma, que se renombran o se borran al instanciar.
+  `_cliente-ejemplo/`, `_id-corrida/` o `_norma.md` son ejemplos de forma, que se renombran o se borran al instanciar.
   Los nombres de archivo nunca llevan `< >`: son ilegales en Windows y rompen el clone. En el
-  texto de la documentación sí, como notación (`runs/AAAA-MM-DD-<slug-del-encargo>`).
+  texto de la documentación sí, como notación (`clientes/<cliente>/runs/AAAA-MM-DD-<slug-del-encargo>`).
 - **Identificador de corrida.** `AAAA-MM-DD-<slug-del-encargo>`, en minúsculas y con guiones.
-  El mismo identificador se usa en `runs/` y en `propuestas/`.
+  El mismo identificador se usa en `runs/` y en `propuestas/` del mismo cliente.
+- **Un cliente, una carpeta, una sesión.** Todo lo de un cliente vive en `clientes/<cliente>/` y se
+  trabaja abriendo esa carpeta en Claude Code. Nada de un cliente se lee desde otro (regla R13).
 - **Un archivo, una responsabilidad.** El rol no explica el método; el método no fija precios; los
   costos no redefinen el alcance. Cuando un archivo empieza a hacer dos cosas, se divide.
 - **Los originales no se editan.** Lo que llega del cliente se archiva tal cual en

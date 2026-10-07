@@ -32,8 +32,9 @@ para que puedas entender un encargo, planificarlo, repartirlo entre especialista
 entregarlo con el criterio de la casa y no con criterio improvisado.
 
 Cuatro piezas sostienen todo: **`staff/`** son los especialistas que ejecutan, **`packs/`** son los
-servicios que la oficina ofrece, **`refs/`** es la fuente de verdad transversal y **`runs/`** es el
-expediente de cada encargo. El `README.md` explica la estructura completa; `docs/ARQUITECTURA.md`,
+servicios que la oficina ofrece, **`refs/`** es la fuente de verdad transversal y **`clientes/`**
+guarda, en una carpeta aislada por cliente, su ficha y el expediente de cada encargo. El
+`README.md` explica la estructura completa; `docs/ARQUITECTURA.md`,
 el detalle técnico.
 
 Tu rol no es reemplazar el juicio profesional: es **estructurar el trabajo, hacer visible el
@@ -134,7 +135,8 @@ trazable en vez de texto plausible.
 
 Antes de actuar, en este orden: `CLAUDE.md` → `feedback/GLOBAL.md` → `packs/registry.yaml` →
 `detalles.md` del pack que aplica → `rol.md`, `metodologia.md` y `costos.md` de cada especialista
-activado → `refs/INDEX.md` → los adjuntos de la corrida.
+activado → `refs/INDEX.md` → `clientes/<cliente>/CLAUDE.md` y `notas.md` → los adjuntos de la
+corrida.
 
 **No inventes piezas.** Si un pack o un especialista no existe en el repositorio, no existe en la
 oficina. Dilo y ofrece crearlo desde `_PLANTILLA/`.
@@ -163,19 +165,25 @@ Integrar es trabajo del coordinador, y es donde se resuelven las contradicciones
 
 | Qué | Dónde |
 |---|---|
-| Material crudo que llega del cliente | `input/` — **solo lectura**, es zona de paso |
-| Ese material archivado, sin modificar | `runs/<corrida>/adjuntos/<AAAA-MM-DD>-<lote>/` |
-| Su versión en texto | `runs/<corrida>/adjuntos/_texto/` |
-| Encargo entendido, clasificación, plan | `runs/<corrida>/brief.md`, `clasificacion.md`, `plan.md` |
-| Instrucción a cada especialista | `runs/<corrida>/ordenes/<miembro>.md` |
-| Respuesta de cada especialista | `runs/<corrida>/partidas/<miembro>.md` |
-| Integración final | `runs/<corrida>/consolidado.md` |
-| Entregable tal como se envía | `runs/<corrida>/salida/` |
-| Propuesta comercial | `propuestas/<AAAA-MM-DD>-<corrida>/` |
-| Correcciones del mundo real | `feedback/` |
+| Ficha del cliente: marca, contactos, preferencias | `clientes/<cliente>/CLAUDE.md` |
+| Lo aprendido que solo vale para ese cliente | `clientes/<cliente>/notas.md` |
+| Material crudo que llega del cliente | `clientes/<cliente>/input/` — **solo lectura**, es zona de paso |
+| Ese material archivado, sin modificar | `clientes/<cliente>/runs/<corrida>/adjuntos/<AAAA-MM-DD>-<lote>/` |
+| Su versión en texto | `clientes/<cliente>/runs/<corrida>/adjuntos/_texto/` |
+| Encargo entendido, clasificación, plan | `clientes/<cliente>/runs/<corrida>/brief.md`, `clasificacion.md`, `plan.md` |
+| Instrucción a cada especialista | `clientes/<cliente>/runs/<corrida>/ordenes/<miembro>.md` |
+| Respuesta de cada especialista | `clientes/<cliente>/runs/<corrida>/partidas/<miembro>.md` |
+| Integración final | `clientes/<cliente>/runs/<corrida>/consolidado.md` |
+| Entregable tal como se envía | `clientes/<cliente>/runs/<corrida>/salida/` |
+| Propuesta comercial | `clientes/<cliente>/propuestas/<AAAA-MM-DD>-<corrida>/` |
+| Correcciones del mundo real, generalizables | `feedback/` |
 
-Identificador de corrida: `AAAA-MM-DD-<slug-del-encargo>`, en minúsculas y con guiones. **Nada se
-escribe fuera de la corrida**, y los archivos originales del cliente no se editan nunca.
+Identificador de corrida: `AAAA-MM-DD-<slug-del-encargo>`, en minúsculas y con guiones. Nombre de
+cliente: `<slug-del-cliente>`, igual. **Nada se escribe fuera de la corrida**, y los archivos
+originales del cliente no se editan nunca.
+
+Cuando la sesión se abre en la carpeta de un cliente, esa carpeta es `clientes/<cliente>/` y la
+raíz del repositorio está en `../../`.
 
 ### R6 · Trazabilidad
 
@@ -202,6 +210,11 @@ Al inicio de cada corrida se lee `feedback/GLOBAL.md` y los archivos de `feedbac
 incorporarla al `rol.md`, `metodologia.md` o `costos.md` correspondiente: el feedback es tránsito,
 no bodega.
 
+Antes de anotar, se pregunta: **¿esto aplicaría a otro cliente?** Si no, es preferencia de ese
+cliente y va a su `notas.md`. Si sí, va a `feedback/`, sin el nombre del cliente ni datos que lo
+identifiquen. Una preferencia de un cliente promovida a criterio de la casa contamina a todos los
+demás.
+
 ### R10 · Piezas incompletas
 
 Si un especialista no tiene `costos.md`, un pack no tiene `detalles.md` o `refs/INDEX.md` está
@@ -211,14 +224,31 @@ concluir sin eso y ofrece redactarlo desde la plantilla correspondiente.
 ### R11 · Marcadores de posición
 
 El prefijo `_` marca lo que **no es una pieza real del negocio**: `_PLANTILLA/` es un molde, y
-`_miembro-1/`, `_pack-1/`, `_id-corrida/` o `_norma.md` son ejemplos de forma. Nunca los trates
-como especialistas, servicios o corridas reales, y nunca escribas dentro de ellos.
+`_miembro-1/`, `_pack-1/`, `_cliente-ejemplo/`, `_id-corrida/` o `_norma.md` son ejemplos de forma.
+Nunca los trates como especialistas, servicios, clientes o corridas reales, y nunca escribas
+dentro de ellos.
 
 ### R12 · Forma de los entregables
 
 Las propuestas y los entregables siguen los guiones de `plantillas/estructura-propuesta.md` y
 `plantillas/estructura-entregable.md`, y la identidad visual de los `.potx`. El guion se respeta:
 si una sección no aplica, se dice por qué en lugar de eliminarla en silencio.
+
+### R13 · Aislamiento entre clientes
+
+Cada cliente se trabaja **en su propia sesión**, abriendo `clientes/<cliente>/` como proyecto en
+Claude Code. Esa sesión lee la oficina (`staff/`, `packs/`, `refs/`, `plantillas/`, `feedback/`)
+y la carpeta de su cliente, y **nada de otra carpeta de `clientes/`**: ni propuestas, ni corridas,
+ni fichas, ni notas. Tampoco se busca sobre `clientes/` completo.
+
+Nada de un cliente llega a otro: colores, tono, textos, precios ni decisiones. Lo único que cruza
+es el aprendizaje generalizable, y cruza por `feedback/`, anonimizado (R9).
+
+El hook `.claude/hooks/aislar-cliente.py` bloquea las lecturas a otros clientes. Es una red de
+seguridad, no un permiso para depender de ella: la regla vale aunque el hook no esté.
+
+Cliente nuevo: se copia `clientes/_PLANTILLA/` a `clientes/<slug-del-cliente>/`, se completa su
+`CLAUDE.md` y se abre esa carpeta.
 
 ---
 
@@ -232,6 +262,7 @@ Lista mínima para que este repositorio deje de ser un esqueleto:
 - [ ] `packs/registry.yaml` conectando señales reales de encargo con ese pack y ese especialista.
 - [ ] `refs/INDEX.md` con lo que de verdad rige en tu rubro.
 - [ ] Los dos guiones de `plantillas/` escritos con la estructura que usa tu oficina.
+- [ ] Una carpeta en `clientes/` por cliente real, copiada de `_PLANTILLA/`, con su ficha completa.
 
 El paso a paso de cada punto está en `PERSONALIZAR.md`.
 

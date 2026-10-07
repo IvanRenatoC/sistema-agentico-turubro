@@ -35,7 +35,7 @@ competidor podría firmar lo mismo, falta decidir">`
 
 ## Formato de la respuesta
 
-La partida se escribe en `runs/<corrida>/partidas/<miembro>.md` con el formato que define
+La partida se escribe en `clientes/<cliente>/runs/<corrida>/partidas/<miembro>.md` con el formato que define
 `.claude/agents/especialista.md`. Anota acá solo lo propio de este especialista:
 
 - **Secciones adicionales que siempre incluye:** `<las que su oficio exige>`

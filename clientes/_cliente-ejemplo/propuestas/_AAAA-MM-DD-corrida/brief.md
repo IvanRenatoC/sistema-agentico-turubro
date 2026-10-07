@@ -3,7 +3,7 @@
 > **EJEMPLO ILUSTRATIVO — no es una propuesta real.** Muestra la forma del archivo. El formato
 > vigente lo define el flujo **proponer** en `.claude/skills/proponer/SKILL.md`; si algo difiere,
 > manda la skill. Nadie escribe dentro de `propuestas/_AAAA-MM-DD-corrida/`: las propuestas reales
-> van en `propuestas/AAAA-MM-DD-<slug>/`. Esta carpeta se puede borrar.
+> van en `clientes/<cliente>/propuestas/AAAA-MM-DD-<slug>/`. Esta carpeta se puede borrar.
 
 **Cliente.** `<nombre>` · **Contacto.** `<persona y cargo>` · **Recibido el.** `<fecha>`
 

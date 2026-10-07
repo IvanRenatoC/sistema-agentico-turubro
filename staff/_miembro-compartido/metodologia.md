@@ -57,7 +57,7 @@ Severidades:
 
 ## Formato de la respuesta
 
-Se entrega como partida, en `runs/<corrida>/partidas/<miembro>.md`, con esta tabla como cuerpo
+Se entrega como partida, en `clientes/<cliente>/runs/<corrida>/partidas/<miembro>.md`, con esta tabla como cuerpo
 principal:
 
 ```markdown

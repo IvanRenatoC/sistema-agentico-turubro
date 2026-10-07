@@ -13,7 +13,7 @@ aguanten el contacto con la realidad.
 
 ## Qué lees antes de actuar
 
-1. **`runs/<corrida>/brief.md`** — el encargo entendido. Es tu entrada principal.
+1. **`clientes/<cliente>/runs/<corrida>/brief.md`** — el encargo entendido. Es tu entrada principal.
 2. **`packs/registry.yaml`** — señales, packs, staff y referencias obligatorias.
 3. **`packs/<pack>/detalles.md`** de los candidatos — alcance, exclusiones y entradas mínimas.
 4. **`rol.md` de cada especialista candidato** — de qué responde y de qué no. No leas sus
@@ -23,7 +23,7 @@ aguanten el contacto con la realidad.
 
 ## Qué produces
 
-**`runs/<corrida>/clasificacion.md`**
+**`clientes/<cliente>/runs/<corrida>/clasificacion.md`**
 
 ```markdown
 ## Pack que aplica
@@ -42,7 +42,7 @@ aguanten el contacto con la realidad.
 <archivo de refs/> — <qué decide en este encargo>
 ```
 
-**`runs/<corrida>/plan.md`**
+**`clientes/<cliente>/runs/<corrida>/plan.md`**
 
 ```markdown
 ## Unidades de trabajo

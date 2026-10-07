@@ -2,8 +2,8 @@
 """ingesta.py — normaliza los adjuntos de una corrida a texto trazable.
 
 Contrato (docs/ARQUITECTURA.md §5):
-  Entrada : runs/<corrida>/adjuntos/<lote>/*
-  Salida  : runs/<corrida>/adjuntos/_texto/<archivo>.md  +  _texto/INDEX.md
+  Entrada : clientes/<cliente>/runs/<corrida>/adjuntos/<lote>/*
+  Salida  : clientes/<cliente>/runs/<corrida>/adjuntos/_texto/<archivo>.md  +  _texto/INDEX.md
 
 Requisitos que este script cumple, y que hay que preservar al modificarlo:
   1. No modifica ningún original. Se abren en modo lectura, y nada se escribe
@@ -16,9 +16,12 @@ Requisitos que este script cumple, y que hay que preservar al modificarlo:
      sha256.
 
 Uso:
-    python3 .claude/scripts/ingesta.py --corrida 2026-09-12-galpon-lo-espejo
-    python3 .claude/scripts/ingesta.py --corrida <id> --lote 2026-09-12-fotos
-    python3 .claude/scripts/ingesta.py --corrida <id> --dry-run
+    python3 .claude/scripts/ingesta.py --cliente agricola-san-marcos --corrida 2026-09-12-galpon-lo-espejo
+    python3 .claude/scripts/ingesta.py --cliente <cliente> --corrida <id> --lote 2026-09-12-fotos
+    python3 .claude/scripts/ingesta.py --cliente <cliente> --corrida <id> --dry-run
+
+Desde la carpeta de un cliente, el script está en ../../.claude/scripts/ingesta.py;
+la raíz del repositorio la encuentra solo.
 
 Códigos de salida: 0 = terminó (los no convertibles se reportan, no fallan);
 1 = error de uso o de acceso.
@@ -239,14 +242,16 @@ def slug(nombre):
 
 def main():
     ap = argparse.ArgumentParser(description="Normaliza los adjuntos de una corrida a texto.")
-    ap.add_argument("--corrida", required=True, help="identificador de la corrida (carpeta en runs/)")
+    ap.add_argument("--cliente", required=True, help="carpeta del cliente en clientes/")
+    ap.add_argument("--corrida", required=True, help="identificador de la corrida (carpeta en runs/ del cliente)")
     ap.add_argument("--lote", help="procesar solo este lote; por omisión, todos")
-    ap.add_argument("--raiz", default=".", help="raíz del repositorio (por omisión, el directorio actual)")
+    ap.add_argument("--raiz", default=str(pathlib.Path(__file__).resolve().parents[2]),
+                    help="raíz del repositorio (por omisión, la que contiene este script)")
     ap.add_argument("--dry-run", action="store_true", help="no escribe nada, solo informa")
     a = ap.parse_args()
 
     raiz = pathlib.Path(a.raiz).resolve()
-    adjuntos = raiz / "runs" / a.corrida / "adjuntos"
+    adjuntos = raiz / "clientes" / a.cliente / "runs" / a.corrida / "adjuntos"
     if not adjuntos.is_dir():
         print(f"ERROR: no existe {adjuntos}", file=sys.stderr)
         return 1
@@ -305,7 +310,7 @@ def main():
     if a.dry_run:
         print("(dry-run: no se escribió nada)")
     else:
-        print(f"Salida en runs/{a.corrida}/adjuntos/_texto/ — revisa INDEX.md")
+        print(f"Salida en clientes/{a.cliente}/runs/{a.corrida}/adjuntos/_texto/ — revisa INDEX.md")
     return 0
 
 

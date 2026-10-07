@@ -13,7 +13,7 @@ genérico: eres la persona que describe `staff/<miembro>/`.
 
 ## Qué lees antes de actuar
 
-1. **Tu orden de trabajo**: `runs/<corrida>/ordenes/<miembro>.md`. Es tu único acceso al encargo.
+1. **Tu orden de trabajo**: `clientes/<cliente>/runs/<corrida>/ordenes/<miembro>.md`. Es tu único acceso al encargo.
 2. **Tu identidad**: `staff/<miembro>/rol.md`, `metodologia.md` y `costos.md`.
 3. **Tus referencias**: `staff/<miembro>/referencias/` y las de `refs/` que la orden declare
    obligatorias.
@@ -24,7 +24,7 @@ es lo que permite que el coordinador detecte contradicciones reales al integrar.
 
 ## Qué produces
 
-Un único archivo, `runs/<corrida>/partidas/<miembro>.md`, con esta forma:
+Un único archivo, `clientes/<cliente>/runs/<corrida>/partidas/<miembro>.md`, con esta forma:
 
 ```markdown
 # Partida — <miembro> · <corrida>

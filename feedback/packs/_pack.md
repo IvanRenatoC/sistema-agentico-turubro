@@ -38,5 +38,5 @@ Cada discusión con un cliente sobre qué estaba incluido es un borde mal defini
 |---|---|---|---|---|
 | `<fecha>` | `<valor>` | `<valor>` | `<%>` | `<costos.md de <id> / factor / alcance>` |
 
-`<Este cruce se hace comparando propuestas/<id>/ con runs/<id>/: el mismo identificador conecta lo
+`<Este cruce se hace comparando clientes/<cliente>/propuestas/<id>/ con clientes/<cliente>/runs/<id>/: el mismo identificador conecta lo
 ofrecido con lo ejecutado.>`
